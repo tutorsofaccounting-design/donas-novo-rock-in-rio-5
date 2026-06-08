@@ -53,16 +53,6 @@ Copyright (c) 2013 Daniel Eden
     img.visible-xs[src="data:,"],
     img.visible-xs.sf-hidden,
     picture .visible-xs.sf-hidden { display: none !important; }
-    /* Show the desktop hero/banner images on mobile and scale them */
-    img.hidden-xs,
-    picture.hidden-xs,
-    picture.hidden-xs img,
-    swiper-slide img.hidden-xs {
-      display: block !important;
-      width: 100% !important;
-      height: auto !important;
-      max-width: 100% !important;
-    }
     /* Container fixes so images don't overflow viewport */
     .block_content, .block_image, .event-header, #event_content,
     .detail-container, .event_container { width: 100% !important; }
@@ -70,10 +60,48 @@ Copyright (c) 2013 Daniel Eden
     /* Mostra o carrossel também no mobile (estava limitado a desktop) */
     section.block.show_desktop,
     .show_desktop { display: block !important; }
-    /* Swiper goes full-width on mobile */
-    swiper-container { width: 100% !important; }
-    swiper-slide picture, swiper-slide img { width: 100% !important; height: auto !important; }
-    /* Anchor banner wrapping picture - keep as block */
+
+    /* === Imagens hero/banner ampliadas no mobile ===
+       Escalamos para ~155% da largura do viewport para que os textos
+       embutidos na imagem (EU VOU / É HOJE / ACOMPANHE / ROCK IN RIO CARD)
+       fiquem legíveis sem precisar dar zoom. O excesso lateral é
+       cortado pelo overflow-x: hidden definido em <body>. */
+    picture.hidden-xs,
+    .block_image .image,
+    .block_image .image a {
+      display: block !important;
+      width: 155% !important;
+      margin-left: -27.5% !important;
+      max-width: none !important;
+    }
+    picture.hidden-xs img,
+    img.hidden-xs,
+    .block_image .image img {
+      display: block !important;
+      width: 100% !important;
+      height: auto !important;
+      max-width: none !important;
+    }
+
+    /* === Carrossel (swiper) ampliado no mobile ===
+       Aumentamos a área do carrossel para destacar os slides dos artistas. */
+    swiper-container {
+      width: 130% !important;
+      margin-left: -15% !important;
+      max-width: none !important;
+    }
+    swiper-slide picture,
+    swiper-slide img {
+      width: 100% !important;
+      height: auto !important;
+    }
+    /* Setas e dots do swiper proporcionais ao novo tamanho */
+    swiper-container::part(button-prev),
+    swiper-container::part(button-next) {
+      transform: scale(0.85);
+    }
+
+    /* Banner clicável "ACOMPANHE AS NOVIDADES" */
     a[data-testid="acompanhe-novidades-link"] { display: block; width: 100%; }
   }
 </style>
