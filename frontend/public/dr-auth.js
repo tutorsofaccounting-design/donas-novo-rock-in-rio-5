@@ -26,7 +26,7 @@
       .main_content.event_13783 [id=eventCover] .hidden-xs { display: none !important; }
       .main_content.event_13783 [id=eventCover] {
         margin: 0 !important; padding: 0 !important;
-        background: url('/rir-images/banner-ehoje.webp') center/cover no-repeat;
+        background: url('/rir-images/banner-vendas-abertas.jpg') center/cover no-repeat;
         aspect-ratio: 16/9;
       }
       .main_content.event_13783 [id=eventCover] > * { display: none !important; }
