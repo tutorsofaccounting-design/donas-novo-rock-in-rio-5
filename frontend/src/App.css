@@ -1,0 +1,41 @@
+/* Ticketmaster-style */
+.App {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+/* Brand blue used across the experience */
+:root {
+  --tm-blue: #024DDF;
+  --tm-blue-dark: #0240b8;
+  --tm-blue-hover: #0246c9;
+  --tm-ink: #111318;
+  --tm-grey-100: #f3f4f6;
+  --tm-grey-200: #e5e7eb;
+  --tm-grey-500: #6b7280;
+  --tm-grey-700: #374151;
+}
+
+/* Hide scrollbar for horizontal rails */
+.tm-rail::-webkit-scrollbar {
+  display: none;
+}
+.tm-rail {
+  scrollbar-width: none;
+}
+
+/* Hero fade */
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.tm-fade {
+  animation: fadeSlide 0.5s ease-out;
+}
+
+/* Captcha success pop */
+@keyframes captchaPop {
+  0%   { transform: scale(0.2); opacity: 0; }
+  70%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
