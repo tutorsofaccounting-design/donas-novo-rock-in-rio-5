@@ -513,40 +513,16 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
   /* Garante que o banner "ACOMPANHE AS NOVIDADES" seja totalmente clicável */
   a[data-testid="acompanhe-novidades-link"] {
     display: block;
-    position: relative;
     cursor: pointer;
     text-decoration: none;
     color: inherit;
-    background: #0a0a14;
     transition: filter .2s ease, transform .2s ease;
   }
-  a[data-testid="acompanhe-novidades-link"]:hover { filter: brightness(1.06); }
-  a[data-testid="acompanhe-novidades-link"]:active { transform: scale(0.998); }
-  /* Esconde a imagem original do banner (que tinha "ACOMPANHE AS NOVIDADES" desenhado) */
-  a[data-testid="acompanhe-novidades-link"] img,
-  a[data-testid="acompanhe-novidades-link"] picture { visibility: hidden; }
-  /* Renderiza o novo botão "COMPRAR AGORA" sobreposto, centralizado */
-  a[data-testid="acompanhe-novidades-link"]::after {
-    content: "COMPRAR AGORA";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 14px 42px;
-    border-radius: 999px;
-    border: 2px solid #ffffff;
-    color: #ffffff;
-    font-family: "Ticketmaster Sans", "Helvetica Neue", Arial, sans-serif;
-    font-weight: 800;
-    font-size: 18px;
-    letter-spacing: 1.5px;
-    background: rgba(255,255,255,0.04);
-    box-shadow: 0 6px 22px rgba(0,0,0,.35);
-    white-space: nowrap;
-    transition: background-color .2s ease, transform .2s ease;
+  a[data-testid="acompanhe-novidades-link"]:hover {
+    filter: brightness(1.06);
   }
-  a[data-testid="acompanhe-novidades-link"]:hover::after {
-    background: rgba(255,255,255,0.18);
+  a[data-testid="acompanhe-novidades-link"]:active {
+    transform: scale(0.998);
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
