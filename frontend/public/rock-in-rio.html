@@ -538,11 +538,12 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
       if (!window.customElements || !customElements.get('swiper-container')) {
         return setTimeout(boot, 60);
       }
+      var isMobile = window.matchMedia('(max-width: 767px)').matches;
       var containers = document.querySelectorAll('swiper-container');
       containers.forEach(function (sc) {
         sc.classList.remove('sf-hidden');
         try {
-          Object.assign(sc, {
+          var config = {
             navigation: true,
             pagination: { clickable: true },
             loop: true,
@@ -550,8 +551,10 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
             speed: 900,
             spaceBetween: 0,
             slidesPerView: 1,
-            autoHeight: true,
-          });
+          };
+          // autoHeight só no mobile pra não bagunçar a altura no desktop
+          if (isMobile) config.autoHeight = true;
+          Object.assign(sc, config);
           if (typeof sc.initialize === 'function' && !sc.swiper) sc.initialize();
         } catch (e) {}
       });
@@ -578,9 +581,10 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
          src="data:," (placeholder vazio) — no iOS Safari elas renderizam como
          um quadradinho com "?" e o pai delas mantém altura intrínseca,
          criando uma faixa preta enorme antes do footer. Forçamos a remoção. */
+      /* Renomeio o isMobile local pra não conflitar (var hoisted) */
       function cleanupBrokenAndEmpty() {
-        var isMobile = window.matchMedia('(max-width: 767px)').matches;
-        if (!isMobile) return;
+        var isM = window.matchMedia('(max-width: 767px)').matches;
+        if (!isM) return;
         // Remove placeholders mobile (visible-xs / data-type=mobile / src="data:,")
         var brokenSelectors = [
           'picture.visible-xs',
