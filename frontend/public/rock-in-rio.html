@@ -98,7 +98,11 @@ Copyright (c) 2013 Daniel Eden
 
     /* Compactar espaços verticais entre seções */
     section.block, .block { margin: 0 !important; padding: 0 !important; }
+    section.block.centered { padding: 4px 0 !important; }
     .block_image { margin: 0 !important; padding: 0 !important; }
+    .block_content { padding-top: 0 !important; padding-bottom: 0 !important; }
+    /* Remove min-height de 636px que cria espaço preto antes do footer */
+    .main_content { min-height: 0 !important; }
     .block_image .image {
       padding: 0 !important;
       line-height: 0 !important;
