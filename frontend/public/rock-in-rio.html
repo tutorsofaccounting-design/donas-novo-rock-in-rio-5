@@ -49,9 +49,14 @@ Copyright (c) 2013 Daniel Eden
 <!-- E1: Mobile overrides (modo compacto) -->
 <style>
   @media (max-width: 767px) {
-    img.visible-xs[src="data:,"],
+    /* Esconde placeholders mobile vazios (imagens "data:," que viram quadradinho de "?") */
+    picture.visible-xs,
+    picture.visible-xs.sf-hidden,
+    img.visible-xs,
     img.visible-xs.sf-hidden,
-    picture .visible-xs.sf-hidden { display: none !important; }
+    [data-type="mobile"],
+    img[src="data:,"],
+    img[src=data\\:\\,] { display: none !important; height: 0 !important; width: 0 !important; }
     .block_content, .block_image, .event-header, #event_content,
     .detail-container, .event_container { width: 100% !important; }
     body, html { overflow-x: hidden !important; }
