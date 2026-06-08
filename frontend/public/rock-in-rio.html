@@ -52,28 +52,55 @@ Copyright (c) 2013 Daniel Eden
     img.visible-xs[src="data:,"],
     img.visible-xs.sf-hidden,
     picture .visible-xs.sf-hidden { display: none !important; }
-    /* Mostra imagens desktop no mobile, sem inflar */
-    img.hidden-xs,
-    picture.hidden-xs,
-    picture.hidden-xs img,
-    swiper-slide img.hidden-xs {
-      display: block !important;
-      width: 100% !important;
-      height: auto !important;
-      max-width: 100% !important;
-    }
     .block_content, .block_image, .event-header, #event_content,
     .detail-container, .event_container { width: 100% !important; }
     body, html { overflow-x: hidden !important; }
     /* Carrossel também aparece no mobile */
     section.block.show_desktop, .show_desktop { display: block !important; }
-    swiper-container { width: 100% !important; }
-    swiper-slide picture, swiper-slide img { width: 100% !important; height: auto !important; }
-    a[data-testid="acompanhe-novidades-link"] { display: block; width: 100%; }
-    /* Compactar espaços verticais */
+
+    /* === Hero/banner ampliado ~150% no mobile === */
+    /* Aumenta o tamanho visual do hero (EU VOU / VENDAS / COMPRE AGORA / GARANTA JÁ SEU LUGAR)
+       para que os textos e o botão fiquem legíveis sem zoom manual. */
+    picture.hidden-xs,
+    .block_image .image,
+    .block_image .image a {
+      display: block !important;
+      width: 150% !important;
+      margin-left: -25% !important;
+      max-width: none !important;
+    }
+    picture.hidden-xs img,
+    img.hidden-xs,
+    .block_image .image img {
+      display: block !important;
+      width: 100% !important;
+      height: auto !important;
+      max-width: none !important;
+    }
+
+    /* === Carrossel: altura automática, sem zoom exagerado === */
+    swiper-container {
+      width: 100% !important;
+      height: auto !important;
+      max-width: 100% !important;
+    }
+    swiper-slide { height: auto !important; }
+    swiper-slide picture,
+    swiper-slide img {
+      width: 100% !important;
+      height: auto !important;
+      object-fit: contain !important;
+    }
+    /* Setas menores no mobile */
+    swiper-container::part(button-prev),
+    swiper-container::part(button-next) { transform: scale(0.7); }
+
+    /* Compactar espaços verticais entre seções */
     section.block, .block { margin: 0 !important; padding: 0 !important; }
     .block_image { margin: 0 !important; padding: 0 !important; }
     .block_image .image { margin: 0 !important; padding: 0 !important; line-height: 0 !important; }
+
+    a[data-testid="acompanhe-novidades-link"] { display: block; width: 100%; }
   }
 </style>
 </head>
@@ -470,3 +497,65 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
 <iframe id=GTM-WBGSPNM-TMspoEDP width=1 height=1 frameborder=0 style=display:none></iframe>
 <iframe id=GTM-WBGSPNM-TMBRspoEDP width=1 height=1 frameborder=0 style=display:none></iframe>
 <img src=data:, height=1 width=1 fetchpriority=high style=display:none><img src=data:, height=1 width=1 fetchpriority=high style=display:none>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<style>
+  swiper-container.sf-hidden { display: block !important; }
+  swiper-container { display: block; width: 100%; position: relative; }
+  swiper-slide img.sf-hidden { display: block !important; }
+  swiper-container::part(pagination) { bottom: 18px; }
+  swiper-container::part(button-prev),
+  swiper-container::part(button-next) { color: #fff; }
+  a[data-testid="acompanhe-novidades-link"] {
+    display: block; cursor: pointer; text-decoration: none; color: inherit;
+    transition: filter .2s ease, transform .2s ease;
+  }
+  a[data-testid="acompanhe-novidades-link"]:hover { filter: brightness(1.06); }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+<script>
+  (function () {
+    function boot() {
+      if (!window.customElements || !customElements.get('swiper-container')) {
+        return setTimeout(boot, 60);
+      }
+      var containers = document.querySelectorAll('swiper-container');
+      containers.forEach(function (sc) {
+        sc.classList.remove('sf-hidden');
+        try {
+          Object.assign(sc, {
+            navigation: true,
+            pagination: { clickable: true },
+            loop: true,
+            autoplay: { delay: 4500, disableOnInteraction: true },
+            speed: 900,
+            spaceBetween: 0,
+            slidesPerView: 1,
+            autoHeight: true,
+          });
+          if (typeof sc.initialize === 'function' && !sc.swiper) sc.initialize();
+        } catch (e) {}
+      });
+      var visibleSwiper = null;
+      containers.forEach(function (sc) {
+        var r = sc.getBoundingClientRect();
+        if (!visibleSwiper && r.width > 0 && r.height > 0) visibleSwiper = sc;
+      });
+      if (!visibleSwiper) {
+        var last = containers[containers.length - 1];
+        if (last) {
+          var node = last;
+          while (node && node !== document.body) {
+            node.classList && node.classList.remove('sf-hidden');
+            node = node.parentElement;
+          }
+          visibleSwiper = last;
+        }
+      }
+      containers.forEach(function (sc) { if (sc !== visibleSwiper) sc.style.display = 'none'; });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  })();
+</script>
+
+</body></html>
