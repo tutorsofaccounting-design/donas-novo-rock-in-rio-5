@@ -108,6 +108,10 @@ Copyright (c) 2013 Daniel Eden
     .block_content { padding-top: 0 !important; padding-bottom: 0 !important; }
     /* Remove min-height de 636px que cria espaço preto antes do footer */
     .main_content { min-height: 0 !important; }
+    .main_content > *, #container, #container > * { min-height: 0 !important; }
+    /* Some templates render a long #section_event placeholder on mobile - force collapse */
+    .section_event:empty, .block_content:empty, section.block:empty,
+    div[id^="component-"]:empty { display: none !important; }
     .block_image .image {
       padding: 0 !important;
       line-height: 0 !important;
@@ -568,6 +572,52 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
         }
       }
       containers.forEach(function (sc) { if (sc !== visibleSwiper) sc.style.display = 'none'; });
+
+      /* E1: Remove imagens vazias/quebradas e seções "fantasma" no mobile.
+         Algumas <picture class="visible-xs">/<img data-type=mobile> ficam com
+         src="data:," (placeholder vazio) — no iOS Safari elas renderizam como
+         um quadradinho com "?" e o pai delas mantém altura intrínseca,
+         criando uma faixa preta enorme antes do footer. Forçamos a remoção. */
+      function cleanupBrokenAndEmpty() {
+        var isMobile = window.matchMedia('(max-width: 767px)').matches;
+        if (!isMobile) return;
+        // Remove placeholders mobile (visible-xs / data-type=mobile / src="data:,")
+        var brokenSelectors = [
+          'picture.visible-xs',
+          'img.visible-xs',
+          'img[data-type="mobile"]',
+          'picture[data-type="mobile"]',
+          'img[src="data:,"]',
+          'img[src=""]',
+        ];
+        document.querySelectorAll(brokenSelectors.join(',')).forEach(function (el) {
+          el.style.display = 'none';
+          el.style.height = '0';
+          el.style.width = '0';
+          if (el.parentNode) el.parentNode.removeChild(el);
+        });
+        // Remove imagens broken (naturalWidth=0 e tem src real)
+        document.querySelectorAll('img').forEach(function (img) {
+          if (img.complete && img.naturalWidth === 0 && img.naturalHeight === 0) {
+            if (img.parentNode) img.parentNode.removeChild(img);
+          }
+        });
+        // Colapsa containers vazios entre o conteúdo e o footer
+        var footer = document.querySelector('footer');
+        if (!footer) return;
+        var fTop = footer.getBoundingClientRect().top;
+        document.querySelectorAll('section, .block, .block_content, .block_image').forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < fTop && r.top > 0 && (el.innerText || '').trim() === '' && el.querySelectorAll('img,picture,video,canvas,iframe,svg').length === 0) {
+            el.style.display = 'none';
+          }
+        });
+      }
+      cleanupBrokenAndEmpty();
+      // Roda de novo após imagens carregarem
+      window.addEventListener('load', cleanupBrokenAndEmpty);
+      setTimeout(cleanupBrokenAndEmpty, 800);
+      setTimeout(cleanupBrokenAndEmpty, 2500);
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
     else boot();
