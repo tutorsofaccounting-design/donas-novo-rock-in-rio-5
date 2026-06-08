@@ -59,23 +59,24 @@ Copyright (c) 2013 Daniel Eden
     section.block.show_desktop, .show_desktop { display: block !important; }
 
     /* === Hero/banner ampliado ~150% no mobile === */
-    /* Aumenta o tamanho visual do hero (EU VOU / VENDAS / COMPRE AGORA / GARANTA JÁ SEU LUGAR)
-       para que os textos e o botão fiquem legíveis sem zoom manual. */
-    picture.hidden-xs,
-    .block_image .image,
-    .block_image .image a {
+    /* Escala UMA vez no contêiner pai (.block_image .image), e os filhos
+       seguem 100% para evitar empilhar 150% × 150% = 225% no banner do botão. */
+    .block_image .image {
       display: block !important;
       width: 150% !important;
       margin-left: -25% !important;
       max-width: none !important;
     }
+    .block_image .image a,
+    picture.hidden-xs,
     picture.hidden-xs img,
     img.hidden-xs,
     .block_image .image img {
       display: block !important;
       width: 100% !important;
       height: auto !important;
-      max-width: none !important;
+      max-width: 100% !important;
+      margin: 0 !important;
     }
 
     /* === Carrossel: altura automática, sem zoom exagerado === */
@@ -98,7 +99,13 @@ Copyright (c) 2013 Daniel Eden
     /* Compactar espaços verticais entre seções */
     section.block, .block { margin: 0 !important; padding: 0 !important; }
     .block_image { margin: 0 !important; padding: 0 !important; }
-    .block_image .image { margin: 0 !important; padding: 0 !important; line-height: 0 !important; }
+    .block_image .image {
+      padding: 0 !important;
+      line-height: 0 !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+      /* margin-left fica controlado pela regra acima (-25%) */
+    }
 
     a[data-testid="acompanhe-novidades-link"] { display: block; width: 100%; }
   }
