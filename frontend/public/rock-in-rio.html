@@ -656,7 +656,8 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
     min-height: 540px;
     background:
       linear-gradient(180deg, rgba(10,10,20,0.20) 0%, rgba(10,10,20,0.55) 45%, rgba(10,10,20,0.92) 100%),
-      url('/rir-images/modal-bg.jpg') center 18% / cover no-repeat;
+      url('/rir-images/modal-bg.jpg') center center / contain no-repeat,
+      #0a0a14;
     border: 1px solid rgba(255,193,7,.45);
     border-radius: 18px;
     padding: 36px 28px 30px;
@@ -711,10 +712,10 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
     font-size: 34px;
     color: #1a0a14;
     font-weight: 900;
-    animation: rirPulse 2s ease-in-out infinite;
     position: relative;
     z-index: 2;
     border: 2px solid rgba(255,255,255,.9);
+    box-shadow: 0 8px 24px rgba(0,0,0,.5);
   }
   #rir-alert-title {
     font-size: 26px;
