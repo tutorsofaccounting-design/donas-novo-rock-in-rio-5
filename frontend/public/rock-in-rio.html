@@ -742,32 +742,31 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
     border: 0;
     color: #1a0a14;
     font-weight: 900;
-    font-size: 15px;
-    letter-spacing: 1.5px;
-    padding: 15px 42px;
+    font-size: 13px;
+    letter-spacing: 1.2px;
+    padding: 10px 26px;
     border-radius: 999px;
     cursor: pointer;
-    box-shadow: 0 10px 28px rgba(255,61,0,.45), 0 0 0 2px rgba(255,193,7,.25);
+    box-shadow: 0 6px 18px rgba(255,61,0,.4), 0 0 0 2px rgba(255,193,7,.25);
     transition: transform .15s ease, box-shadow .2s ease;
     position: relative;
     z-index: 2;
     align-self: center;
   }
-  #rir-alert-ok:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(255,61,0,.6), 0 0 0 3px rgba(255,193,7,.4); }
+  #rir-alert-ok:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(255,61,0,.55), 0 0 0 3px rgba(255,193,7,.4); }
   #rir-alert-ok:active { transform: translateY(0); }
   @media (max-width: 480px) {
-    #rir-alert-modal { padding: 28px 20px 24px; border-radius: 16px; min-height: 480px; max-width: 360px; }
+    #rir-alert-modal { padding: 24px 18px 20px; border-radius: 16px; max-width: 360px; }
     #rir-alert-title { font-size: 22px; }
     #rir-alert-message { font-size: 14.5px; }
-    #rir-alert-icon { width: 56px; height: 56px; font-size: 28px; }
-    #rir-alert-ok { padding: 13px 34px; font-size: 14px; }
+    #rir-alert-ok { padding: 9px 22px; font-size: 12.5px; }
   }
 </style>
 
 <div id="rir-alert-overlay" role="dialog" aria-modal="true" aria-labelledby="rir-alert-title" data-testid="rir-alert-overlay">
   <div id="rir-alert-modal">
     <button type="button" id="rir-alert-close" aria-label="Fechar" data-testid="rir-alert-close-x">&times;</button>
-    <h2 id="rir-alert-title">ATENÇÃO, ROCKEIRO(A)!</h2>
+    <h2 id="rir-alert-title">ATENÇÃO, ROCKEIRO!</h2>
     <p id="rir-alert-message">
       Os ingressos do <strong>Rock in Rio 2026</strong> estão <strong>acabando rápido</strong>.<br>
       Garanta agora o seu antes que esgote!
