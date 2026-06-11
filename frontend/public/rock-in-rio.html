@@ -629,4 +629,192 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
   })();
 </script>
 
+
+<!-- E1: Modal informativo "ingressos esgotando" -->
+<style>
+  #rir-alert-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.78);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    animation: rirFadeIn .35s ease-out;
+  }
+  #rir-alert-overlay.is-open { display: flex; }
+  @keyframes rirFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes rirZoomIn { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes rirPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,193,7,.55); } 50% { box-shadow: 0 0 0 16px rgba(255,193,7,0); } }
+
+  #rir-alert-modal {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    min-height: 540px;
+    background:
+      linear-gradient(180deg, rgba(10,10,20,0.20) 0%, rgba(10,10,20,0.55) 45%, rgba(10,10,20,0.92) 100%),
+      url('/rir-images/modal-bg.jpg') center 18% / cover no-repeat;
+    border: 1px solid rgba(255,193,7,.45);
+    border-radius: 18px;
+    padding: 36px 28px 30px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 30px 80px rgba(0,0,0,.6), 0 0 60px rgba(255,69,0,.25);
+    overflow: hidden;
+    animation: rirZoomIn .4s cubic-bezier(.2,.9,.3,1.2);
+    font-family: "Ticketmaster Sans", "Helvetica Neue", Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  /* Vinheta vermelha sutil + glow nas bordas, reforçando estética Rock in Rio */
+  #rir-alert-modal::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 90%, rgba(220, 30, 40, 0.20), transparent 60%),
+      radial-gradient(circle at 50% 10%, rgba(255,255,255,0.05), transparent 50%);
+    pointer-events: none;
+  }
+  #rir-alert-close {
+    position: absolute;
+    top: 12px; right: 14px;
+    width: 38px; height: 38px;
+    background: rgba(0,0,0,.55);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s ease, transform .2s ease;
+    z-index: 3;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  #rir-alert-close:hover { background: rgba(220,30,40,.85); transform: scale(1.08); border-color: rgba(255,255,255,.5); }
+
+  #rir-alert-icon {
+    width: 64px; height: 64px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ffc107, #ff3d00);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    color: #1a0a14;
+    font-weight: 900;
+    animation: rirPulse 2s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+    border: 2px solid rgba(255,255,255,.9);
+  }
+  #rir-alert-title {
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    margin: 0 0 12px;
+    color: #fff;
+    text-shadow: 0 2px 14px rgba(0,0,0,0.9), 0 0 24px rgba(220,30,40,.6);
+    position: relative;
+    z-index: 2;
+  }
+  #rir-alert-message {
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: #f5e6e8;
+    margin: 0 0 22px;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.95);
+  }
+  #rir-alert-message strong { color: #ffd54f; font-weight: 800; }
+  #rir-alert-ok {
+    background: linear-gradient(135deg, #ff3d00, #ffc107);
+    border: 0;
+    color: #1a0a14;
+    font-weight: 900;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    padding: 15px 42px;
+    border-radius: 999px;
+    cursor: pointer;
+    box-shadow: 0 10px 28px rgba(255,61,0,.45), 0 0 0 2px rgba(255,193,7,.25);
+    transition: transform .15s ease, box-shadow .2s ease;
+    position: relative;
+    z-index: 2;
+    align-self: center;
+  }
+  #rir-alert-ok:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(255,61,0,.6), 0 0 0 3px rgba(255,193,7,.4); }
+  #rir-alert-ok:active { transform: translateY(0); }
+  @media (max-width: 480px) {
+    #rir-alert-modal { padding: 28px 20px 24px; border-radius: 16px; min-height: 480px; max-width: 360px; }
+    #rir-alert-title { font-size: 22px; }
+    #rir-alert-message { font-size: 14.5px; }
+    #rir-alert-icon { width: 56px; height: 56px; font-size: 28px; }
+    #rir-alert-ok { padding: 13px 34px; font-size: 14px; }
+  }
+</style>
+
+<div id="rir-alert-overlay" role="dialog" aria-modal="true" aria-labelledby="rir-alert-title" data-testid="rir-alert-overlay">
+  <div id="rir-alert-modal">
+    <button type="button" id="rir-alert-close" aria-label="Fechar" data-testid="rir-alert-close-x">&times;</button>
+    <div id="rir-alert-icon" aria-hidden="true">!</div>
+    <h2 id="rir-alert-title">ATENÇÃO, ROCKEIRO(A)!</h2>
+    <p id="rir-alert-message">
+      Os ingressos do <strong>Rock in Rio 2026</strong> estão <strong>acabando rápido</strong>.<br>
+      Garanta agora o seu antes que esgote!
+    </p>
+    <button type="button" id="rir-alert-ok" data-testid="rir-alert-ok-btn">OK, ENTENDI</button>
+  </div>
+</div>
+
+<script>
+  (function () {
+    function openAlert() {
+      var ov = document.getElementById('rir-alert-overlay');
+      if (!ov) return;
+      ov.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeAlert() {
+      var ov = document.getElementById('rir-alert-overlay');
+      if (!ov) return;
+      ov.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+    function init() {
+      // Mostra 1x por sessão (não pertuba a cada refresh, mas reaparece em nova visita)
+      try {
+        if (sessionStorage.getItem('rir_alert_shown') === '1') return;
+        sessionStorage.setItem('rir_alert_shown', '1');
+      } catch (e) {}
+      setTimeout(openAlert, 600);
+
+      var ov = document.getElementById('rir-alert-overlay');
+      var x = document.getElementById('rir-alert-close');
+      var ok = document.getElementById('rir-alert-ok');
+      if (x) x.addEventListener('click', closeAlert);
+      if (ok) ok.addEventListener('click', closeAlert);
+      // Fecha ao clicar no backdrop (fora do card)
+      if (ov) ov.addEventListener('click', function (e) {
+        if (e.target === ov) closeAlert();
+      });
+      // ESC fecha
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeAlert();
+      });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+  })();
+</script>
+
 </body></html>
