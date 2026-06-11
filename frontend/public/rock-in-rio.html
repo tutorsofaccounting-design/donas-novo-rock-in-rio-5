@@ -728,13 +728,18 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
     z-index: 2;
   }
   #rir-alert-message {
-    font-size: 15.5px;
-    line-height: 1.55;
+    font-size: clamp(11px, 2.4vw, 15.5px);
+    line-height: 1.6;
     color: #f5e6e8;
     margin: 0 0 22px;
     position: relative;
     z-index: 2;
     text-shadow: 0 1px 8px rgba(0,0,0,0.95);
+  }
+  #rir-alert-message .rir-line {
+    display: block;
+    white-space: nowrap;
+    overflow: visible;
   }
   #rir-alert-message strong { color: #ffd54f; font-weight: 800; }
   #rir-alert-ok {
@@ -757,8 +762,7 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
   #rir-alert-ok:active { transform: translateY(0); }
   @media (max-width: 480px) {
     #rir-alert-modal { padding: 24px 18px 20px; border-radius: 16px; max-width: 360px; }
-    #rir-alert-title { font-size: 22px; }
-    #rir-alert-message { font-size: 14.5px; }
+    #rir-alert-title { font-size: 20px; }
     #rir-alert-ok { padding: 9px 22px; font-size: 12.5px; }
   }
 </style>
@@ -768,8 +772,8 @@ facebook" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAcCAYAAAC+lOV
     <button type="button" id="rir-alert-close" aria-label="Fechar" data-testid="rir-alert-close-x">&times;</button>
     <h2 id="rir-alert-title">ATENÇÃO, ROCKEIRO!</h2>
     <p id="rir-alert-message">
-      Os ingressos do <strong>Rock in Rio 2026</strong> estão <strong>acabando</strong>.<br>
-      Garanta agora o seu antes que esgote!
+      <span class="rir-line">Os ingressos pelo <strong>Rock in Rio 2026</strong> tão <strong>acabando</strong>.</span>
+      <span class="rir-line">Garanta agora o seu antes que esgote!</span>
     </p>
     <button type="button" id="rir-alert-ok" data-testid="rir-alert-ok-btn">OK, ENTENDI</button>
   </div>
